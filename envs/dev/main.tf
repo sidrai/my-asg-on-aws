@@ -1,7 +1,7 @@
 module "asg_app" {
   source = "../../modules/asg_app/"
 
-  environment = "dev"
+  environment = "prod"
   ami_id      = "ami-0818a4d7794d429b1"  # Amazon Ubuntu ap-southeast-2
   key_name    = "asgawskey"
 
