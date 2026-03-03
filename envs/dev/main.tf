@@ -1,8 +1,8 @@
 module "asg_app" {
-  source = "../../modules/asg-app"
+  source = "../../modules/asg_app/"
 
   environment = "dev"
-  ami_id      = "ami-0940df33750ae6e7f"  # Amazon Ubuntu ap-southeast-2
+  ami_id      = "ami-0818a4d7794d429b1"  # Amazon Ubuntu ap-southeast-2
   key_name    = "asgawskey"
 
   asg_min_size         = 2

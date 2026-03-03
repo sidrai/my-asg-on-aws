@@ -1,6 +1,6 @@
 terraform {
   backend "s3" {
-    bucket         = "your-unique-terraform-state-bucket"  # from global output
+    bucket         = "asg-on-aws-terraform-state-bucket-eb11a242"  # from global output
     key            = "dev/terraform.tfstate"
     region         = "ap-southeast-2"
     dynamodb_table = "terraform-state-locks"

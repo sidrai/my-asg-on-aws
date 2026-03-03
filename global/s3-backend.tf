@@ -1,6 +1,6 @@
 # Create S3 bucket for Terraform state
 resource "aws_s3_bucket" "terraform_state" {
-  bucket = "your-unique-terraform-state-bucket-${random_id.bucket_suffix.hex}"  # change to your name
+  bucket = "asg-on-aws-terraform-state-bucket-${random_id.bucket_suffix.hex}"  # change to your name
 
   tags = {
     Name = "Terraform State Bucket"
