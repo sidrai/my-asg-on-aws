@@ -1,4 +1,11 @@
-output "instance_public_ip" {
-  value       = ""                                          # The actual value to be outputted
-  description = "The public IP address of the EC2 instance" # Description of what this output represents
+output "alb_dns_name" {
+  value = aws_lb.alb.dns_name
+}
+
+output "vpc_id" {
+  value = aws_vpc.main.id
+}
+
+output "asg_name" {
+  value = aws_autoscaling_group.asg.name
 }
