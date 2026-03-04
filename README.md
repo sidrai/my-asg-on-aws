@@ -1,10 +1,31 @@
 # my-asg-on-aws
+# Auto Scaling Group on AWS with Terraform
+
+## Introduction
+
+The assignment is developed as a precursor for AWS Codepipeline implementation of auto-healing web tier with implicit arrangement for Blue-Green deployment and update of Infrastructure on AWS. Following are the features of the current scheme:
+
+    - Self-healing – terminating an instance triggers the platform to replace it automatically.
+    - Self-provisioning (IaC only) – one command stands everything up; a second run makes no changes.
+    - N + 1 capacity – traffic is spread across at least two instances behind a load balancer.
+    - Static web page – a default static HTML page is created.
+    Templates
+        - Preferred: Terraform v-latest
+
 ## Prerequisites
 
 Before we begin, make sure you have the following prerequisites in place:
 
 - **An AWS account** with appropriate permissions to create and manage resources.
 - **Terraform installed** on your local machine. You can download it from the official Terraform website and follow the installation instructions for your operating system.
+
+# Auto Scaling Group on AWS with Terraform
+
+The instances are created under ASG, which covers the Self-healing feature. The numbers of instances are configurable and it enables application availability, distribute traffic evenly, and optimize resource utilization.
+
+## Infrastructure provisioning
+The overall architecture is listed below:
+![infrastruture](./images/Schematic diagram.png)
 
 ### Step 1: Provider Configuration
 
