@@ -367,3 +367,4 @@ Ingress: allows HTTP (TCP/80) from anywhere. Egress: allows all outbound traffic
 **aws_autoscaling_policy.scale_up**: Target tracking scaling policy that adjusts the ASG size to keep average CPU utilization around 50%.
 
 ## Conclusion
+To conclude, implementing an Auto Scaling Group on AWS with Terraform provides a flexible and efficient solution for managing application scalability.
