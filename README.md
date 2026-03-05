@@ -3,7 +3,7 @@
 
 ## Introduction
 
-The assignment is developed as a precursor for AWS Codepipeline implementation of auto-healing web tier with implicit arrangement for Blue-Green deployment and update of Infrastructure on AWS. Following are the features of the current scheme:
+The assignment is developed as a precursor for AWS Codepipeline implementation of auto-healing web tier with implicit arrangement for Dev and prod instance and auto-update of Infrastructure on AWS. Following are the features of the current scheme:
 
     - Self-healing – terminating an instance triggers the platform to replace it automatically.
     - Self-provisioning (IaC only) – one command stands everything up; a second run makes no changes.
@@ -25,7 +25,14 @@ The instances are created under ASG, which covers the Self-healing feature. The 
 
 ## Infrastructure provisioning
 The overall architecture is listed below:
+
+
 ![infrastruture](./images/Schematic diagram.png)
+
+# Directory Structure with Prod and Dev env
+
+![Folder Structure](./images/Folder Structure.png)
+
 
 ### Step 1: Provider Configuration
 
