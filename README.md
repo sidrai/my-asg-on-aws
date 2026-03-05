@@ -19,7 +19,7 @@ Before we begin, make sure you have the following prerequisites in place:
 - **An AWS account** with appropriate permissions to create and manage resources.
 - **Terraform installed** on your local machine. You can download it from the official Terraform website and follow the installation instructions for your operating system.
 
-# Auto Scaling Group on AWS with Terraform
+## Auto Scaling Group on AWS with Terraform
 
 The instances are created under ASG, which covers the Self-healing feature. The numbers of instances are configurable and it enables application availability, distribute traffic evenly, and optimize resource utilization.
 
@@ -212,3 +212,93 @@ EC2_AVAIL_ZONE=`curl -s http://169.254.169.254/latest/meta-data/placement/availa
 echo "<h3 align='center'> Hello World from Availability zone for Cloud Infrastructure Engineer : $EC2_AVAIL_ZONE ; Hostname $(hostname -f) </h3>" > /var/www/html/index.html
 sudo apt install stress -y
 ```
+
+###Setup Instructions
+Create S3 bucket + DynamoDB globally once (terraform apply in global/):
+
+```
+bash
+cd global
+terraform init && terraform apply
+```
+
+```
+bash
+cd environments/dev
+terraform init && terraform plan && terraform apply
+cd ../prod
+terraform init && terraform plan && terraform apply
+```
+
+#File description
+##Global S3 Backend (global/s3-backend.tf)
+	S3 bucket is a global service which is used to store terraform state file with encrytion
+	
+```
+# Create S3 bucket for Terraform state
+resource "aws_s3_bucket" "terraform_state" {
+  bucket = "project-singular-terraform-state-bucket-${random_id.bucket_suffix.hex}"  # change to your name
+
+  tags = {
+    Name = "Terraform State Bucket"
+  }
+}
+
+resource "random_id" "bucket_suffix" {
+  byte_length = 4
+}
+
+resource "aws_s3_bucket_versioning" "terraform_state_versioning" {
+  bucket = aws_s3_bucket.terraform_state.id
+  versioning_configuration {
+    status = "Enabled"
+  }
+}
+
+resource "aws_s3_bucket_server_side_encryption_configuration" "terraform_state_encryption" {
+  bucket = aws_s3_bucket.terraform_state.id
+
+  rule {
+    apply_server_side_encryption_by_default {
+      sse_algorithm = "AES256"
+    }
+  }
+}
+
+resource "aws_s3_bucket_public_access_block" "terraform_state_block" {
+  bucket = aws_s3_bucket.terraform_state.id
+
+  block_public_acls       = true
+  block_public_policy     = true
+  ignore_public_acls      = true
+  restrict_public_buckets = true
+}
+
+output "s3_bucket_name" {
+  value = aws_s3_bucket.terraform_state.id
+}
+```
+
+##Global DynamoDB Lock (global/dynamodb-lock.tf)
+    DynamoDB is used for state locking: it prevents more than one Terraform run from modifying the same S3 state file at the same time.
+	
+```
+resource "aws_dynamodb_table" "terraform_locks" {
+  name         = "terraform-state-locks"
+  billing_mode = "PAY_PER_REQUEST"
+  hash_key     = "LockID"
+
+  attribute {
+    name = "LockID"
+    type = "S"
+  }
+
+  tags = {
+    Name = "Terraform State Lock Table"
+  }
+}
+
+output "dynamodb_table_name" {
+  value = aws_dynamodb_table.terraform_locks.name
+}```
+
