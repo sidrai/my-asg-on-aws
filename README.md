@@ -45,7 +45,7 @@ The instances are created under ASG, which covers the Self-healing feature. The 
 ## Infrastructure provisioning
 The overall architecture is listed below:
 
-![infrastruture](./images/Schematic diagram.png)
+![infrastruture](./images/schematic diagram.png)
 
 **Setup Instructions**:	Create S3 bucket + DynamoDB globally once (terraform apply in global/):
 
